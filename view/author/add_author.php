@@ -5,29 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Author</title>
-    <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../library/Style/style.css">
 </head>
 
 <body>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index_author.php">Author <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../book/index_book.php">Book</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include_once '../Layout/Navbar.php'; ?>
 
     <!-- content -->
     <div class="container mt-3">
@@ -35,7 +19,7 @@
             <div class="col-md-6">
                 <div class="card" style="width: auto; padding:20px;">
                     <h5 class="card-title">Insert Author Data Here</h5>
-                    <form action="../../Model/Query_author.php" method="POST">
+                    <form action="../../Model/Query_author.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id_author">
                         <div class="form-group">
                             <label> Author Name</label>
@@ -49,9 +33,13 @@
                             <label> Phone Number</label>
                             <input type="number" class="form-control" name="phone_number" placeholder="Enter author phone number" >
                         </div>
+                        <div class=" form-group">
+                            <label> About Author</label>
+                            <input type="text" class="form-control" name="author_description" placeholder="Enter author description" >
+                        </div>
                         <div class="form-group">
                             <label> Picture</label>
-                            <input type="text" class="form-control" name="picture" placeholder="Enter picture">
+                            <input type="file" class="form-control" name="image" placeholder="Enter picture">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-info btn-block" name="save_author">Save</button>

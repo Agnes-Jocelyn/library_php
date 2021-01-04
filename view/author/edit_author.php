@@ -11,52 +11,54 @@
 
 <body>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index_author.php">Author <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../book/index_book.php">Book</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include_once '../Layout/Navbar.php'; ?>
 
     <!-- content -->
-    <?php require_once '../../library/process.php';
+    <?php
+    require_once '../../library/process.php';
     $id = $_GET['id'];
     $data = mysqli_query($mysqli, "SELECT * FROM author WHERE id='$id'");
-    while ($author = $data->fetch_assoc()) : ?>
+    while ($author = $data->fetch_assoc()): ?>
 
     <div class="container mt-3">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="card" style="width: auto; padding:20px;">
                     <h5 class="card-title">Edit Author Data Here</h5>
-                    <form action="../../Model/query_author.php" method="POST">
+                    <form action="../../Model/query_author.php" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?= $author['id'] ?>">
                         <div class="form-group">
                             <label> Author Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter author name" value="<?php echo $author['name']; ?>" >
+                            <input type="text" class="form-control" name="name" placeholder="Enter author name" value="<?php echo $author[
+                                'name'
+                            ]; ?>" >
                         </div>
                         <div class=" form-group">
                             <label> Address</label>
-                            <input type="text" class="form-control" name="address" placeholder="Enter author address" value="<?php echo $author['address']; ?>">
+                            <input type="text" class="form-control" name="address" placeholder="Enter author address" value="<?php echo $author[
+                                'address'
+                            ]; ?>">
                         </div>
                         <div class="form-group">
                             <label> Phone Number</label>
-                            <input type="number" class="form-control" name="phone_number" placeholder="Enter author phone number" value="<?php echo $author['phone_number']; ?>" >
+                            <input type="number" class="form-control" name="phone_number" placeholder="Enter author phone number" value="<?php echo $author[
+                                'phone_number'
+                            ]; ?>" >
+                        </div>
+                        <div class="form-group">
+                            <label> About Author</label>
+                            <input type="text" class="form-control" name="author_description" placeholder="Enter author description" value="<?php echo $author[
+                                'author_description'
+                            ]; ?>" >
                         </div>
                         <div class="form-group">
                             <label> Picture</label>
-                            <input type="text" class="form-control" name="picture" placeholder="Enter picture" value="<?php echo $author['picture']; ?>">
+                            <input type="hidden" name="oldimage" value="<?php echo $author[
+                                'image'
+                            ]; ?>">
+                            <input type="file" class="form-control" name="image" placeholder="Enter picture" value="<?php echo $author[
+                                'image'
+                            ]; ?>">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-info btn-block" name="update">Update</button>
@@ -65,7 +67,8 @@
                 </div>
             </div>
         </div>
-    <?php endwhile; ?>
+    <?php endwhile;
+    ?>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

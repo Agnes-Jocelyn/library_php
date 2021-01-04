@@ -5,57 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book</title>
-    <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../library/Style/style.css">
 </head>
 
 <body>
     <!-- nav -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="../author/index_author.php">Author <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index_book.php">Book</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include_once '../Layout/Navbar.php'; ?>
 
     <div class="container mt-4">
         <a href="add_book.php" class="btn btn-info ml-3">Add Book</a>
         <div class="row">
         <?php
-            require_once '../../Library/Process.php';
-            ($list_book = mysqli_query(
-                $mysqli,
-                'SELECT * FROM author JOIN book ON author.id = book.id_author ORDER BY book.id ASC'
-            )) or die($mysqli->error);
-            while ($book_row = $list_book->fetch_array()): 
-            ?>
+        require_once '../../Library/Process.php';
+        ($list_book = mysqli_query(
+            $mysqli,
+            'SELECT * FROM author JOIN book ON author.id = book.id_author ORDER BY book.id ASC'
+        )) or die($mysqli->error);
+        while ($book_row = $list_book->fetch_array()): ?>
             <div class="col-md-4" >
-                <div class="card mx-auto mt-4"  style="width: 20rem;">
-                    <img src="<?php echo '../../model/Images/Books/'.$book_row['picture']; ?> " class="card-img-top" alt="...">
+                <div class="card mx-auto mt-4"  style="width: 18rem;">
+                    <img src="<?php echo '../../model/Images/Books/' .
+                        $book_row[
+                            'picture'
+                        ]; ?> " class="card-img-top img" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $book_row['title']; ?></h5>
-                       <p class="card-text">Author : <?php echo $book_row['name']; ?> </p>
-                       <p class="card-text">Publisher : <?php echo $book_row['publisher']; ?> </p>
-                       <p class="card-text">Description : <?php echo $book_row['description']; ?> </p>
-                        <a href="edit_book.php?id=<?php echo $book_row['id']; ?>" class="btn btn-warning btn-block ">Edit</a>
-                        <a href="../../model/query_book.php?delete=<?php echo $book_row['id']; ?>" class="btn btn-danger btn-block">Delete</a>
+                        <a href="book_detail.php?detail=<?php echo $book_row[
+                            'id'
+                        ]; ?> "><h5 class="card-title"><?php echo $book_row[
+     'title'
+ ]; ?></h5></a>
+                       <p class="card-text">Author : <?php echo $book_row[
+                           'name'
+                       ]; ?> </p>
+                        <a href="edit_book.php?id=<?php echo $book_row[
+                            'id'
+                        ]; ?>" class="btn btn-warning btn-block ">Edit</a>
+                        <a href="../../model/query_book.php?delete=<?php echo $book_row[
+                            'id'
+                        ]; ?>" class="btn btn-danger btn-block">Delete</a>
                     </div>
                 </div>
             </div>
             
             <?php endwhile;
-            ?>
+        ?>
     </div>
 
     </div>

@@ -11,77 +11,69 @@
 
 <body>
     <!-- nav -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="../author/index_author.php">Author <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index_book.php">Book</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include_once '../Layout/Navbar.php'; ?>
 
     <!-- content -->
-    <?php require_once '../../library/process.php';
+    <?php
+    require_once '../../library/process.php';
     $id = $_GET['id'];
     $data = mysqli_query($mysqli, "SELECT * FROM book WHERE id='$id'");
-    while ($book = $data->fetch_assoc()) : ?>
+    while ($book = $data->fetch_assoc()): ?>
 
     <div class="container mt-3">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="card" style=" padding:25px;">
                     <h5 class="card-title">Edit Book Data Here</h5>
-                    <form action="../../Model/Query_book.php" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $book['id']; ?>">
+                    <form action="../../Model/query_book.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?php echo $id; ?>">
                         <div class="form-group">
                             <label> Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter title" value="<?php echo $book['title']; ?>">
+                            <input type="text" class="form-control" name="title" placeholder="Enter title" value="<?php echo $book[
+                                'title'
+                            ]; ?>">
                         </div>
-                        <div class=" form-group">
-                            <label> Author</label>
-                            <select name="author" id="author" class="form-control" >
-                                <option disabled selected>Choose Author</option>
+                        <div class="form-group">
+                            <label for="">Author</label>
+                            <select name="author" id="" class="form-control">
+                                <option value="" disabled>Choose Author</option>
                                 <?php require_once '../../library/process.php';
-                                ($sql = mysqli_query(
-                                    $mysqli,
-                                    'SELECT * FROM author'
-                                )) or die($mysqli->error);
-                                while ($author = $sql->fetch_assoc()): ?>
-                                    <option value="<?= $author[
-                                        'id'
-                                    ] ?>"><?= $author['name'] ?></option>
-                                <?php endwhile;
-                                ?>
-                            </select>
+                                ($data = $mysqli->query('SELECT * FROM author')) or die(mysql_error($mysqli));
+
+                                while ($author =  $data->fetch_assoc()): ?>
+                                <option value="<?php echo $author['id']; ?>"><?php echo $author['name']; ?></option>
+                            <?php endwhile; ?> 
+                            </select>            
                         </div>
                          <div class="form-group">
                             <label> Publisher</label>
-                            <input type="text" class="form-control" name="publisher" placeholder="Enter publisher" value="<?php echo $book['publisher']; ?>">
+                            <input type="text" class="form-control" name="publisher" placeholder="Enter publisher" value="<?php echo $book[
+                                'publisher'
+                            ]; ?>">
                         </div>
                         <div class="form-group">
                             <label> Description</label>
-                            <input type="text" class="form-control" name="description" placeholder="Enter book description" value="<?php echo $book['description']; ?>">
+                            <input type="text" class="form-control" name="description" placeholder="Enter book description" value="<?php echo $book[
+                                'description'
+                            ]; ?>">
                         </div>
                         <div class="form-group">
                             <label> Picture</label>
-                            <input type="text" class="form-control" name="picture" placeholder="Enter book picture" value="<?php echo $book['picture']; ?>">
+                            <input type="hidden" name="oldpicture" value="<?php echo $book[
+                                'picture'
+                            ]; ?>">
+                            <input type="file" class="form-control" name="picture" placeholder="Enter book picture" value="<?php echo $book[
+                                'picture'
+                            ]; ?>">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-block" name="update_book">Add new book</button>
+                            <button type="submit" class="btn btn-success btn-block" name="update_book">Edit book</button>
                         </div>
                     </form>
                 </div>
             </div>
-        <?php endwhile; ?>
+        <?php endwhile;
+    ?>
         </div>
     </div>
 
